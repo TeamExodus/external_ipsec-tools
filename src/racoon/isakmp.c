@@ -3134,7 +3134,7 @@ script_env_append(envp, envc, name, value)
 		    "Cannot allocate memory: %s\n", strerror(errno));
 		return -1;
 	}
-	sprintf(envitem, "%s=%s", name, value);
+	snprintf(envitem, sizeof(*envitem), "%s=%s", name, value);
 
 	newenvc = (*envc) + 1;
 	newenvp = racoon_realloc(*envp, newenvc * sizeof(char *));

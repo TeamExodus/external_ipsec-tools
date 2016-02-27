@@ -397,9 +397,9 @@ char * splitnet_list_2str(list, splitnet_ipaddr)
 			tmp3 = ntohl(netentry->network.mask4.s_addr);
 			for (cidrmask = 0; tmp3 != 0; cidrmask++)
 				tmp3 <<= 1;
-			len += sprintf(str+len, "%s/%d ", tmp1, cidrmask);
+			len += snprintf(str+len, sizeof(str)+len, "%s/%d ", tmp1, cidrmask);
 		} else {
-			len += sprintf(str+len, "%s/%s ", tmp1, tmp2);
+			len += snprintf(str+len, sizeof(str)+len, "%s/%s ", tmp1, tmp2);
 		}
 
 		netentry = netentry->next;

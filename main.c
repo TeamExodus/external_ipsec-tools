@@ -119,7 +119,7 @@ const char *android_hook(char **envp)
         do_plog(LLV_ERROR, "Cannot allocate TUN: %s\n", strerror(errno));
         exit(1);
     }
-    sprintf(*envp, "INTERFACE=%s", ifr.ifr_name);
+    snprintf(*envp, sizeof(**envp), "INTERFACE=%s", ifr.ifr_name);
     return "/etc/ppp/ip-up-vpn";
 }
 
