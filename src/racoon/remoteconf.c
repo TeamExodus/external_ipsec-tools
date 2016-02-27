@@ -499,10 +499,10 @@ dump_peers_identifiers (void *entry, void *arg)
 	struct idspec *id = (struct idspec*) entry;
 	char buf[1024], *pbuf;
 	pbuf = buf;
-	pbuf += sprintf (pbuf, "\tpeers_identifier %s",
+	pbuf += snprintf (pbuf, sizeof(buf),"\tpeers_identifier %s",
 			 s_idtype (id->idtype));
 	if (id->id)
-		pbuf += sprintf (pbuf, " \"%s\"", id->id->v);
+		pbuf += snprintf (pbuf, sizeof(buf)," \"%s\"", id->id->v);
 	plog(LLV_INFO, LOCATION, NULL, "%s;\n", buf);
 	return NULL;
 }
@@ -515,22 +515,22 @@ dump_rmconf_single (struct remoteconf *p, void *data)
 	char buf[1024], *pbuf;
 
 	pbuf = buf;
-	pbuf += sprintf(pbuf, "remote %s", saddr2str(p->remote));
+	pbuf += snprintf(pbuf, sizeof(buf),"remote %s", saddr2str(p->remote));
 	if (p->inherited_from)
-		pbuf += sprintf(pbuf, " inherit %s",
+		pbuf += snprintf(pbuf, sizeof(buf)," inherit %s",
 				saddr2str(p->inherited_from->remote));
 	plog(LLV_INFO, LOCATION, NULL, "%s {\n", buf);
 	pbuf = buf;
-	pbuf += sprintf(pbuf, "\texchange_type ");
+	pbuf += snprintf(pbuf, sizeof(buf),"\texchange_type ");
 	while (etype) {
-		pbuf += sprintf (pbuf, "%s%s", s_etype(etype->type),
+		pbuf += snprintf (pbuf, sizeof(buf),"%s%s", s_etype(etype->type),
 				 etype->next != NULL ? ", " : ";\n");
 		etype = etype->next;
 	}
 	plog(LLV_INFO, LOCATION, NULL, "%s", buf);
 	plog(LLV_INFO, LOCATION, NULL, "\tdoi %s;\n", s_doi(p->doitype));
 	pbuf = buf;
-	pbuf += sprintf(pbuf, "\tmy_identifier %s", s_idtype (p->idvtype));
+	pbuf += snprintf(pbuf, sizeof(buf),"\tmy_identifier %s", s_idtype (p->idvtype));
 	if (p->idvtype == IDTYPE_ASN1DN) {
 		plog(LLV_INFO, LOCATION, NULL, "%s;\n", buf);
 		plog(LLV_INFO, LOCATION, NULL, "\tcertificate_type %s \"%s\" \"%s\";\n",
@@ -554,7 +554,7 @@ dump_rmconf_single (struct remoteconf *p, void *data)
 	}
 	else {
 		if (p->idv)
-			pbuf += sprintf (pbuf, " \"%s\"", p->idv->v);
+			pbuf += snprintf (pbuf, sizeof(buf)," \"%s\"", p->idv->v);
 		plog(LLV_INFO, LOCATION, NULL, "%s;\n", buf);
 		genlist_foreach(p->idvl_p, &dump_peers_identifiers, NULL);
 	}
