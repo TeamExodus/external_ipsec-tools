@@ -765,7 +765,7 @@ eay_get_x509subjectaltname(cert, altname, type, pos)
 		if (!*altname)
 			goto end;
 		
-		sprintf(*altname, "%u.%u.%u.%u", ip[0], ip[1], ip[2], ip[3]);
+		snprintf(*altname, 20,"%u.%u.%u.%u", ip[0], ip[1], ip[2], ip[3]);
 		*type = gen->type;
 		error = 0;
 	}
